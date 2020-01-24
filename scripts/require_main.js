@@ -4,6 +4,7 @@ define(function (require) {
   require('standard_notice');
   require('create_element');
   require('markdowntohtml');
+  require('eggaction');
   
   document.addEventListener('DOMContentLoaded', app.init());
 });

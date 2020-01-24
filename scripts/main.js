@@ -11,10 +11,11 @@ const app = function () {
   };
 
 	const page = {};
-	const settings = {
-    sourcefileid: '1loq7XcF_7Y0yXIej4tgNZkFo70TODivjiBtKHEvOMdY',
-    config: null
-  };
+	const settings = {};
+  
+  //-- test query params
+  //sourcefileid: 1loq7XcF_7Y0yXIej4tgNZkFo70TODivjiBtKHEvOMdY
+  //configname: js_gamedesign
   
 	//---------------------------------------
 	// get things going
@@ -24,20 +25,20 @@ const app = function () {
     
     page.notice = new StandardNotice(page.body, page.body);
 
-/*
     var expectedQueryParams = [
-      {key: 'sourcefilelink', required: true},
-      {key: 'instance', required: true}
+      {key: 'sourcefileid', required: true},
+      {key: 'configname', required: true}
     ];
+    
     if (_initializeSettings(expectedQueryParams)) {
-*/      
-    if (true) {
 			page.notice.setNotice('loading configuration data...', true);
             
       var configRequestParams = {
         sourcefileid: settings.sourcefileid,
-        configname: 'js_gamedesign'
+        configname: settings.configname
       };
+      console.log(configRequestParams);
+      
       var requestResult = await googleSheetWebAPI.webAppGet(apiInfo, 'config', configRequestParams, page.notice);
       if (requestResult.success) {
         settings.config = requestResult.data;
@@ -52,9 +53,7 @@ const app = function () {
 	//-------------------------------------------------------------------------------------
 	function _initializeSettings(expectedParams) {
     var result = false;
-    result = true;
     
-    /*
     var urlParams = new URLSearchParams(window.location.search);
     for (var i = 0; i < expectedParams.length; i++) {
       var key = expectedParams[i].key;
@@ -73,7 +72,7 @@ const app = function () {
     } else {   
       page.notice.setNotice('failed to initialize: invalid parameters');
     }
-    */
+
     return result;
   }  
   	
@@ -144,8 +143,13 @@ const app = function () {
   }
   
   function _doAction(response) {
-    _setDisplay(page.success, true);
-    page.success.innerHTML = response.action + '<br>' + JSON.stringify(response.actionArg);
+    var egg = new EggAction({
+      action: response.action, 
+      actionArg: response.actionArg,
+      container: page.success
+    });
+    
+    egg.doAction();
   }
   
   function _doFailedAction  () {
