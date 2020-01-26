@@ -34,31 +34,35 @@ class EggAction {
   }  
   
   _showCongratulations() {
-    var container = this._actionInfo.container;
+    var congratsContainer = CreateElement.createDiv(null, 'egg-congrats');
+    this._actionInfo.container.appendChild(congratsContainer);
     
-    container.appendChild(CreateElement.createDiv(null, null, 'Congratulations!  You\'ve found answer #' + this._actionInfo.responseNum));
+    congratsContainer.appendChild(CreateElement.createDiv(null, null, 'Congratulations!  You\'ve found answer #' + this._actionInfo.responseNum));
     
-    var msg = 'Let ' + this._actionInfo.instructor + ' know by sending a message or text with the phrase <em>' + this._actionInfo.actionArg[1] + '</em>';
-    container.appendChild(CreateElement.createDiv(null, null, msg)); 
+    var msg = 'Let ' + this._actionInfo.instructor + ' know by sending a message or text with this phrase: <em>' + this._actionInfo.confirmPhrase + '</em>';
+    congratsContainer.appendChild(CreateElement.createDiv(null, null, msg)); 
   }
   
   _actionGoogleSearch(me) {
-    var container = me._actionInfo.container;
+    var rewardContainer = CreateElement.createDiv(null, 'eg-reward');
+    me._actionInfo.container.appendChild(rewardContainer);
     
     var searchPhrase = me._actionInfo.actionArg[0];
-    container.appendChild(CreateElement.createDiv(null, null, 'Here is your reward:'));
-    container.appendChild(CreateElement.createDiv(null, null, 'Try using Google to search for <em>' + searchPhrase + '</em>'));
+    var msg = 'Here\'s a little something fun to try: do a Google search for <em>' + searchPhrase + '</em>';
+    rewardContainer.appendChild(CreateElement.createDiv(null, 'egg-reward', msg));
   }
   
   _actionURL(me) {
-    var container = me._actionInfo.container;
+    var rewardContainer = CreateElement.createDiv(null, 'egg-reward');
+    me._actionInfo.container.appendChild(rewardContainer);
+    
+    var msg = 'Here\'s a little something fun to try: click on this link to ';
+    rewardContainer.appendChild(CreateElement.createSpan(null, null, msg));
     
     var url = me._actionInfo.actionArg[0];
-    container.appendChild(CreateElement.createSpan(null, null, 'Here is your reward:<br>Try this link to '));
-    
     var elemLink = CreateElement.createLink(null, null, 'something fun', null, url);
     elemLink.target = '_blank';
-    container.appendChild(elemLink);
+    rewardContainer.appendChild(elemLink);
   }
   
   _badAction() {

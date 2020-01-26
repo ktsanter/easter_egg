@@ -100,6 +100,7 @@ const app = function () {
     
     var elemInput = CreateElement.createTextInput(null, 'egganswer-input');
     container.appendChild(elemInput);
+    elemInput.placeholder = 'Enter your answer here';
     elemInput.addEventListener('input', function() {
       _setDisplay(page.success, false);
       _setDisplay(page.failure, false);
@@ -154,6 +155,7 @@ const app = function () {
       instructor: settings.config.instructor, 
       action: response.action, 
       actionArg: response.actionArg,
+      confirmPhrase: response.confirmPhrase,
       container: page.success
     });
     
