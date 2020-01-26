@@ -37,7 +37,6 @@ const app = function () {
         sourcefileid: settings.sourcefileid,
         configname: settings.configname
       };
-      console.log(configRequestParams);
       
       var requestResult = await googleSheetWebAPI.webAppGet(apiInfo, 'config', configRequestParams, page.notice);
       if (requestResult.success) {
@@ -105,6 +104,13 @@ const app = function () {
       _setDisplay(page.success, false);
       _setDisplay(page.failure, false);
     });
+    
+    elemInput.addEventListener('keypress', function(e) {
+      if (e.key == 'Enter') {
+        page.body.getElementsByClassName('egganswer-check')[0].click();
+      }
+    });
+    
     setTimeout(function() {elemInput.focus();}, 1);
     
     container.appendChild(CreateElement.createButton(null, 'egganswer-check', 'check', 'check your answer', _handleCheckAnswer));
@@ -144,6 +150,8 @@ const app = function () {
   
   function _doAction(response) {
     var egg = new EggAction({
+      responseNum: response.num,
+      instructor: settings.config.instructor, 
       action: response.action, 
       actionArg: response.actionArg,
       container: page.success
