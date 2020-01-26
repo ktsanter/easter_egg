@@ -92,6 +92,21 @@ body {
   font-size: 1.2em;
 }
 
+.egg-oops {
+  margin-top: 0.8em;
+  margin-left: 0.2em;
+  font-size: 1.2em;
+}
+
+.egg-effectcanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
 /*-- standard error and notice tools --*/
 .standard_error {
   display: none;

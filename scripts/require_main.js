@@ -5,6 +5,9 @@ define(function (require) {
   require('create_element');
   require('markdowntohtml');
   require('eggaction');
+  require('eggeffect');
+  require('particle');
+  require('firework');
   
   document.addEventListener('DOMContentLoaded', app.init());
 });

@@ -1,5 +1,5 @@
 //-------------------------------------------------------------------
-// eggaction: Easter Egg action class
+// Easter Egg action class
 //-------------------------------------------------------------------
 // TODO: 
 //-------------------------------------------------------------------
@@ -15,7 +15,8 @@ class EggAction {
   doAction () {
     var actionRouter = {
       'google_search': this._actionGoogleSearch,
-      'url': this._actionURL
+      'url': this._actionURL,
+      'effect': this._actionEffect
     };
     
     this._clearElement(this._actionInfo.container);
@@ -44,25 +45,33 @@ class EggAction {
   }
   
   _actionGoogleSearch(me) {
-    var rewardContainer = CreateElement.createDiv(null, 'eg-reward');
+    var rewardContainer = CreateElement.createDiv(null, 'egg-reward');
     me._actionInfo.container.appendChild(rewardContainer);
     
     var searchPhrase = me._actionInfo.actionArg[0];
     var msg = 'Here\'s a little something fun to try: do a Google search for <em>' + searchPhrase + '</em>';
-    rewardContainer.appendChild(CreateElement.createDiv(null, 'egg-reward', msg));
+    rewardContainer.appendChild(CreateElement.createDiv(null, null, msg));
   }
   
   _actionURL(me) {
     var rewardContainer = CreateElement.createDiv(null, 'egg-reward');
     me._actionInfo.container.appendChild(rewardContainer);
     
-    var msg = 'Here\'s a little something fun to try: click on this link to ';
+    var msg = 'Got a minute?  Try this link for ';
     rewardContainer.appendChild(CreateElement.createSpan(null, null, msg));
     
     var url = me._actionInfo.actionArg[0];
-    var elemLink = CreateElement.createLink(null, null, 'something fun', null, url);
+    var elemLink = CreateElement.createLink(null, null, 'something fun.', null, url);
     elemLink.target = '_blank';
     rewardContainer.appendChild(elemLink);
+  }
+  
+  _actionEffect(me) {
+    var rewardContainer = CreateElement.createDiv(null, 'egg-reward');
+    me._actionInfo.container.appendChild(rewardContainer);
+    
+    var eggEffect = new EggEffect({'effect': me._actionInfo.actionArg[0], 'container': rewardContainer});
+    eggEffect.doEffect();
   }
   
   _badAction() {
@@ -70,9 +79,9 @@ class EggAction {
     
     var msg = 'Oops!  Something went wrong and I can\'t figure out the right reward for this answer. ';
     msg += 'Please let ' + this._actionInfo.instructor + ' know about this when you get the chance.';
-    container.appendChild(CreateElement.createDiv(null, null, msg));
+    container.appendChild(CreateElement.createDiv(null, 'egg-oops', msg));
   }
-  
+
   //---------------------------------------
   // utility functions
   //----------------------------------------  
