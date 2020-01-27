@@ -23,7 +23,7 @@ class EggEffect {
      window.addEventListener('resize', this._resizeCanvas(this), false);
      this._resizeCanvas(this);
      var handler = (me) => {return this._cleanup(this);}
-     this._mainCanvas.addEventListener('click', handler);
+     this._mainCanvas.addEventListener('click', handler); 
   }
 
   _resizeCanvas(me) {
@@ -32,7 +32,6 @@ class EggEffect {
   }
   
   _cleanup(me) {
-    console.log('cleanup');
     window.cancelAnimationFrame(me.animationRequest);
     me._mainCanvas.parentNode.removeChild(me._mainCanvas);
   }
@@ -69,8 +68,7 @@ class EggEffect {
   }
   
   _updateShootingStars(me) {
-    me._mainContext.fillStyle = '#000';
-    me._mainContext.fillRect(0, 0, me._mainCanvas.width, me._mainCanvas.height);
+    me._mainContext.clearRect(0, 0, me._mainCanvas.width, me._mainCanvas.height);
     
     me.fw1.update();
     me.fw2.update();

@@ -6,7 +6,6 @@
 
 class Firework {
   constructor (canvas, ctx) {
-    console.log('new Firework');
 		const minStrength = 1.5; //lowest firework power
 		const maxStrength = 7; //highest firework power
 		const minTrails = 7; //min particles

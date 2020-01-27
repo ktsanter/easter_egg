@@ -81,6 +81,10 @@ const app = function () {
   function _renderPage() {
     var container = CreateElement.createDiv(null, 'eggcontainer'); 
     var config = settings.config;
+    if (config == null) {
+      _renderConfigNotFound(container);
+      return container;
+    }
     
     container.appendChild(CreateElement.createImage(null, 'eggimage', config.imageURL));
     container.appendChild(CreateElement.createDiv(null, 'egginstructions', MarkdownToHTML.convert(config.instructions)));
@@ -93,6 +97,10 @@ const app = function () {
     container.appendChild(page.failure);
 
     return container;
+  }
+  
+  function _renderConfigNotFound(container) {
+    container.appendChild(CreateElement.createDiv(null, 'eggnoconfig', 'configuration not found for ' + settings.configname));    
   }
   
   function _renderAnswerEntry() {

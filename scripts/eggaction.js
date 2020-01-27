@@ -40,8 +40,12 @@ class EggAction {
     
     congratsContainer.appendChild(CreateElement.createDiv(null, null, 'Congratulations!  You\'ve found answer #' + this._actionInfo.responseNum));
     
-    var msg = 'Let ' + this._actionInfo.instructor + ' know by sending a message or text with this phrase: <em>' + this._actionInfo.confirmPhrase + '</em>';
-    congratsContainer.appendChild(CreateElement.createDiv(null, null, msg)); 
+    var msg = 'Let ' + this._actionInfo.instructor + ' know by sending a message or text with this phrase';
+    var confirmContainer = CreateElement.createDiv(null, 'egg-congrats-confirmation', msg)
+    congratsContainer.appendChild(confirmContainer); 
+
+    var msg = '<em>' + this._actionInfo.confirmPhrase + '</em>';
+    confirmContainer.appendChild(CreateElement.createDiv(null, 'egg-congrats-confirmation-phrase', msg));
   }
   
   _actionGoogleSearch(me) {
