@@ -22,10 +22,13 @@ class EggEffect {
   _initialize() {
      window.addEventListener('resize', this._resizeCanvas(this), false);
      this._resizeCanvas(this);
+     
      var handler = (me) => {return this._cleanup(this);}
-     this._mainCanvas.addEventListener('click', handler); 
+     this._mainCanvas.addEventListener('click', handler);
+     document.onkeypress = handler;
   }
 
+  
   _resizeCanvas(me) {
     me._mainCanvas.width = window.innerWidth;
     me._mainCanvas.height = window.innerHeight;
@@ -34,8 +37,10 @@ class EggEffect {
   _cleanup(me) {
     window.cancelAnimationFrame(me.animationRequest);
     me._mainCanvas.parentNode.removeChild(me._mainCanvas);
+    document.onkeypress = null;
   }
-	
+
+
   //-----------------------------------------------------------------------------
   // effect methods
   //-----------------------------------------------------------------------------  
