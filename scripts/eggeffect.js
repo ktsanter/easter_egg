@@ -20,12 +20,12 @@ class EggEffect {
   }  
   
   _initialize() {
-     window.addEventListener('resize', this._resizeCanvas(this), false);
-     this._resizeCanvas(this);
+    window.addEventListener('resize', this._resizeCanvas(this), false);
+    this._resizeCanvas(this);
      
-     var handler = (me) => {return this._cleanup(this);}
-     this._mainCanvas.addEventListener('click', handler);
-     document.onkeypress = handler;
+    var handler = (e, me) => {return this._cleanup(e, this);}
+    this._mainCanvas.addEventListener('click', handler);
+    document.onkeypress = handler;
   }
 
   
@@ -34,7 +34,7 @@ class EggEffect {
     me._mainCanvas.height = window.innerHeight;
   }
   
-  _cleanup(me) {
+  _cleanup(e, me) {
     window.cancelAnimationFrame(me.animationRequest);
     me._mainCanvas.parentNode.removeChild(me._mainCanvas);
     document.onkeypress = null;
@@ -46,10 +46,12 @@ class EggEffect {
   //-----------------------------------------------------------------------------  
   doEffect () {
     var router = {
-      'shooting_stars': this._effectShootingStars
+      'shooting_stars': this._effectShootingStars,
+      'bouncing_text': this._effectScatterText
     };
     
     var effect = this._config.effect;
+
     if (router.hasOwnProperty(effect)) {
       router[effect](this); 
       
@@ -71,7 +73,7 @@ class EggEffect {
     me.fw1.update();
     me.fw2.update();    
   }
-  
+
   _updateShootingStars(me) {
     me._mainContext.clearRect(0, 0, me._mainCanvas.width, me._mainCanvas.height);
     
@@ -88,7 +90,37 @@ class EggEffect {
     var callback = (x) => {return this._updateShootingStars(me);}
     me.animationRequest = window.requestAnimationFrame(callback);
   }
+   
+  _effectScatterText(me) {
+    me._config.container.appendChild(me._mainCanvas);
+    me._updateScatterText(me);
+  }
 
+  _updateScatterText(me) {
+    var ctx = me._mainContext;    
+    var msg = me._config.arg1;
+
+    var fontList = ['Arial', 'Roboto', '"Times New Roman"', 'Courier New"', 'Verdana', 'Georgia', 'Palatino', 'Bookman', '"Comic Sans MS"'];
+    var fontFamily = fontList[~~(Math.random() * fontList.length)];
+    var fontSize = ~~((Math.random() * 60) + 10);
+    ctx.font = fontSize + 'px ' + fontFamily;
+    
+    ctx.strokeStyle = 'rgb(' + ~~(Math.random() * 255) + ',' + ~~(Math.random() * 255) + ',' + ~~(Math.random() * 255) + ')';
+    ctx.fillStyle = 'rgb(' + ~~(Math.random() * 255) + ',' + ~~(Math.random() * 255) + ',' + ~~(Math.random() * 255) + ')';
+
+    var twidth = Math.ceil(ctx.measureText(msg).width);
+    var theight = Math.ceil(1.1 * ctx.measureText('M').width);
+    
+    var x = ~~((Math.random() * (me._mainCanvas.width - twidth)) + 1);
+    var y = ~~((Math.random() * (me._mainCanvas.height - theight)) + 10);
+
+    ctx.fillText(msg, x, y);
+    ctx.strokeText(msg, x, y);
+
+    var callback = (x) => {return this._updateScatterText(me);}
+    me.animationRequest = window.requestAnimationFrame(callback);
+  }
+  
   _badEffect() {
     console.log('_badEffect');
   }

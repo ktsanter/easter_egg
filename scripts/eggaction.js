@@ -74,7 +74,7 @@ class EggAction {
     var rewardContainer = CreateElement.createDiv(null, 'egg-reward');
     me._actionInfo.container.appendChild(rewardContainer);
     
-    var eggEffect = new EggEffect({'effect': me._actionInfo.actionArg[0], 'container': rewardContainer});
+    var eggEffect = new EggEffect({'effect': me._actionInfo.actionArg[0], 'arg1': me._actionInfo.actionArg[1], 'container': rewardContainer});  
     eggEffect.doEffect();
   }
   

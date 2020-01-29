@@ -114,12 +114,6 @@ const app = function () {
       _setDisplay(page.failure, false);
     });
     
-    elemInput.addEventListener('keypress', function(e) {
-      if (e.key == 'Enter') {
-        page.body.getElementsByClassName('egganswer-check')[0].click();
-      }
-    });
-    
     setTimeout(function() {elemInput.focus();}, 1);
     
     container.appendChild(CreateElement.createButton(null, 'egganswer-check', 'check', 'check your answer', _handleCheckAnswer));
@@ -158,6 +152,8 @@ const app = function () {
   }
   
   function _doAction(response) {
+    document.getElementsByClassName('egganswer-check')[0].blur();
+    
     var egg = new EggAction({
       responseNum: response.num,
       instructor: settings.config.instructor, 
