@@ -6,7 +6,7 @@
 
 class Particle {
   constructor (ctx, x, y, vx, vy, ax, ay, color) {
-    const particleRadius = 2;
+    const particleRadius = 3;
     
     this.ctx = ctx;
 		this.x = x;

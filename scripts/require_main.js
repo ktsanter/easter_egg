@@ -8,6 +8,7 @@ define(function (require) {
   require('eggeffect');
   require('particle');
   require('firework');
+  require('cannonball');
   
   document.addEventListener('DOMContentLoaded', app.init());
 });

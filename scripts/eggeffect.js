@@ -46,8 +46,9 @@ class EggEffect {
   //-----------------------------------------------------------------------------  
   doEffect () {
     var router = {
-      'shooting_stars': this._effectShootingStars,
-      'bouncing_text': this._effectScatterText
+      'fireworks': this._effectFireworks,
+      'bouncing_text': this._effectScatterText,
+      'cannon_text': this._effectCannonText
     };
     
     var effect = this._config.effect;
@@ -61,7 +62,7 @@ class EggEffect {
     }
   }  
   
-  _effectShootingStars(me) {
+  _effectFireworks(me) {
     me._config.container.appendChild(me._mainCanvas);
     
 		me.fw1 = new Firework(me._mainCanvas, me._mainContext);
@@ -69,12 +70,12 @@ class EggEffect {
     me.LIFE = 150;
     me.delay = 0.5;
     me.fw2.life = -me.LIFE * me.delay;
-    me._updateShootingStars(me);    
+    me._updateFireworks(me);    
     me.fw1.update();
     me.fw2.update();    
   }
 
-  _updateShootingStars(me) {
+  _updateFireworks(me) {
     me._mainContext.clearRect(0, 0, me._mainCanvas.width, me._mainCanvas.height);
     
     me.fw1.update();
@@ -87,7 +88,7 @@ class EggEffect {
       me.fw1 = new Firework(me._mainCanvas, me._mainContext);
     }
     
-    var callback = (x) => {return this._updateShootingStars(me);}
+    var callback = (x) => {return this._updateFireworks(me);}
     me.animationRequest = window.requestAnimationFrame(callback);
   }
    
@@ -118,6 +119,52 @@ class EggEffect {
     ctx.strokeText(msg, x, y);
 
     var callback = (x) => {return this._updateScatterText(me);}
+    me.animationRequest = window.requestAnimationFrame(callback);
+  }
+  
+  _effectCannonText(me) {
+    me._config.container.appendChild(me._mainCanvas);
+    
+    me.cannonBalls = [];
+    for (var i = 0; i < 10; i++) {
+      me.cannonBalls[i] = me._launchCannonText(me, i * 50);
+      me.cannonBalls[i].draw();
+    }
+    
+    me._updateCannonText(me);
+  }
+  
+  _launchCannonText(me, delay) {
+    var msg = me._config.arg1;
+    var x = 20;
+    var y = me._mainCanvas.height - 20;
+    var fontFamily = 'Arial';
+    var fontSize = 20;
+    
+    var r = ~~(Math.random() * 255);
+    var g = ~~(Math.random() * 255);
+    var b = ~~(Math.random() * 255);
+    var bgColor = 'rgb(' + r + ',' + g + ',' + b + ')';
+    var fgColor = 'rgb(255, 255, 255)';
+    
+    var angle = ~~((Math.random() * (70)) + 10);
+    var speed = 5;
+
+    return new CannonBall(me._mainCanvas, me._mainContext, x, y, angle, speed, fgColor, bgColor, fontFamily, fontSize, msg, delay);
+  }
+
+  _updateCannonText(me) {
+    me._mainContext.clearRect(0, 0, me._mainCanvas.width, me._mainCanvas.height);
+
+    for (var i = 0; i < me.cannonBalls.length; i++) {
+      me.cannonBalls[i].update();
+      if (me.cannonBalls[i].atEdge()) {
+        me.cannonBalls[i] = me._launchCannonText(me, 0);
+      }
+      me.cannonBalls[i].draw();
+    }
+    
+    var callback = (x) => {return this._updateCannonText(me);}
     me.animationRequest = window.requestAnimationFrame(callback);
   }
   
