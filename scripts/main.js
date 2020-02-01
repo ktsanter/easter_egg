@@ -147,15 +147,16 @@ const app = function () {
     if (matchedResponse == null) {
       _doFailedAction();
     } else {
-      _doAction(matchedResponse);
+      _doAction(matchedResponse, responseList.length);
     }
   }
   
-  function _doAction(response) {
+  function _doAction(response, responseCount) {
     document.getElementsByClassName('egganswer-check')[0].blur();
     
     var egg = new EggAction({
       responseNum: response.num,
+      numResponses: responseCount,
       instructor: settings.config.instructor, 
       action: response.action, 
       actionArg: response.actionArg,

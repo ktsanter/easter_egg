@@ -38,9 +38,10 @@ class EggAction {
     var congratsContainer = CreateElement.createDiv(null, 'egg-congrats');
     this._actionInfo.container.appendChild(congratsContainer);
     
-    congratsContainer.appendChild(CreateElement.createDiv(null, null, 'Congratulations!  You\'ve found answer #' + this._actionInfo.responseNum));
+    var msg = 'Congratulations!  You\'ve found answer #' + this._actionInfo.responseNum + ' of ' + this._actionInfo.numResponses;
+    congratsContainer.appendChild(CreateElement.createDiv(null, null, msg));
     
-    var msg = 'Let ' + this._actionInfo.instructor + ' know by sending a message or text with this phrase';
+    msg = 'Let ' + this._actionInfo.instructor + ' know by sending a message or text with this phrase';
     var confirmContainer = CreateElement.createDiv(null, 'egg-congrats-confirmation', msg)
     congratsContainer.appendChild(confirmContainer); 
 
