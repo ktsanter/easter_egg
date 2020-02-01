@@ -136,10 +136,12 @@ const app = function () {
   function _checkAnswer(answer) {
     var responseList = settings.config.response;
     var matchedResponse = null;
+    console.log(answer.toLowerCase());
     
     for (var i = 0; i < responseList.length && matchedResponse == null; i++) {
       var response = responseList[i];
-      if (response.text == answer) {
+      var responseText = (response.text + '').toLowerCase();
+      if (responseText.toLowerCase() == answer) {
         matchedResponse = response;
       }
     }
